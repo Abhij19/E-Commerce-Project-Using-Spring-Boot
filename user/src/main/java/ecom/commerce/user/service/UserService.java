@@ -18,8 +18,6 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
-//   private final List<User> userList = new ArrayList<>();
-//    private Long id = 1L;
 
     public List<UserResponse> fetchAllUsers() {
         return userRepository.findAll().stream()
@@ -28,34 +26,17 @@ public class UserService {
     }
 
     public void addUsers(UserRequest userRequest) {
-//        user.setId(id);
-//        id++;
         User user = new User();
         updateUserFromRequest(user,userRequest);
         userRepository.save(user);
     }
 
     public Optional<UserResponse> fetchUser(String id) {
-//       return userList.stream()
-//               .filter(user -> user.getId().equals(id))
-//               .findFirst()
-//               .orElse(null);
-        
         return userRepository.findById(id).map(this::maptoUserResponse);
     }
 
     public boolean updateUser(String id, UserRequest userRequest)
     {
-//        return userList.stream()
-//                .filter(u -> u.getId().equals(id))
-//                .findFirst()
-//                .map(u -> {
-//                    u.setFirstName(user.getFirstName());
-//                    u.setLastName(user.getLastName());
-//                    return true;
-//                })
-//                .orElse(false);
-
         return userRepository.findById(id)
                 .map(existingUser->{
                     updateUserFromRequest(existingUser,userRequest);

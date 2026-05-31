@@ -17,7 +17,6 @@ public class UserController {
 
     private final UserService userService;
 
-//   @RequestMapping(value = "/api/users", method = RequestMethod.GET)
     @GetMapping
     public ResponseEntity<List<UserResponse>> getAllUsers() {
         return new ResponseEntity<>(userService.fetchAllUsers(),HttpStatus.OK);
@@ -34,11 +33,6 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getSingleUser(@PathVariable String id) {
-//        Old way
-//        User user = userService.fetchUser(id);
-//        if(user == null)
-//            return ResponseEntity.notFound().build();
-//        return ResponseEntity.ok(user);
 
         return userService.fetchUser(id)
                 .map(ResponseEntity::ok)

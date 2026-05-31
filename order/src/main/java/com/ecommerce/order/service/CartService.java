@@ -23,8 +23,6 @@ public class CartService {
     private final CartItemRepository cartItemRepository;
     private final ProductServiceClient productServiceClient;
     private final UserServiceClient userServiceClient;
-//    private final ProductRepository productRepository;
-//    private final UserRepository userRepository;
 
     public boolean addToCart(String userId, CartItemRequest request) {
         // Look for the product
