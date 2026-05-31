@@ -22,7 +22,7 @@ public class CartController {
             @RequestHeader("X-User-ID") String userId,
             @RequestBody CartItemRequest request) {
         // We are taking id in header because each cart belongs to an unique user
-        if (!cartService.addToCart(Long.valueOf(userId), request)) {
+        if (!cartService.addToCart(userId, request)) {
             return ResponseEntity.badRequest().body("Product out of stock or not found or User not found");
         }
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -32,7 +32,7 @@ public class CartController {
     public ResponseEntity<Void> removeFromCart(
             @RequestHeader("X-User-ID") String userId,
             @PathVariable String productId) {
-        boolean deleted = cartService.deleteItemFromCart(Long.valueOf(userId), Long.valueOf(productId));
+        boolean deleted = cartService.deleteItemFromCart(userId, Long.valueOf(productId));
         return deleted ? ResponseEntity.noContent().build()
                 : ResponseEntity.notFound().build();
     }
