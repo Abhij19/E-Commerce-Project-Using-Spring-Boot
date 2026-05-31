@@ -1,0 +1,49 @@
+#spring.application.name=ecom-application
+#spring..h2.console.enabled=true
+#spring.datasource.url=jdbc:h2:mem:testdb // Initialize H2 database in memory means that the data will be lost when the
+# application is stopped. This is useful for testing and development purposes.
+#spring.jpa.show-sql=true // Show SQL statements in the console for debugging purposes.
+#spring.jpa.hibernate.ddl-auto=update // Automatically update the database schema based on the entity classes.
+#This is useful for development, but should be used with caution in production environments.
+#management.endpoints.web.exposure.include=* // Expose all actuator endpoints for monitoring and management purposes.
+#endpoint.health.show-details=always // Show detailed health information in the /actuator/health endpoint.
+spring:
+    application:
+        name: ecom-application
+    datasource:
+        url: jdbc:postgresql://localhost:5432/ecomdb
+        username: postgres
+        password: root
+    jpa:
+        show-sql: true
+        hibernate:
+            ddl-auto: update
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+#    h2:
+#        console:
+#            enabled: true
+#    datasource:
+#        url: jdbc:h2:mem:testdb
+#    jpa:
+#        show-sql: true
+#        hibernate:
+#            ddl-auto: create
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: "*"
+    endpoint:
+        health:
+            show-details: always
+    info:
+         env:
+             enabled: true
+    shutdown:
+        enabled: true
+info:
+    app:
+        name: E-commerce Application
+        version: 1.0.0
+        description: A simple e-commerce application built with Spring Boot and H2 database.

@@ -1,0 +1,51 @@
+spring:
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
+      database: userdb
+  rabbitmq:
+        host: localhost
+        port: 5672
+        username: guest
+        password: guest
+management:
+        endpoints:
+          web:
+            exposure:
+              include: "*"
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/userdb
+#    username: postgres
+#    password: root
+#  jpa:
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: update
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#  h2:
+#    console:
+#      enabled: true
+#
+#  datasource:
+#    url: jdbc:h2:mem:testdb
+#
+#  jpa:
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: create
+#
+#logging:
+#  level:
+#    org.hibernate.SQL: DEBUG
+#    org.hibernate.orm.jdbc.bind: TRACE
+app:
+  message: "Hello from Users Service"
+server:
+  port: 8082
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
