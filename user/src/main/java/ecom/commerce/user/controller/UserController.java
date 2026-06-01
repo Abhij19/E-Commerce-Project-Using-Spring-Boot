@@ -4,6 +4,7 @@ import ecom.commerce.user.dto.UserRequest;
 import ecom.commerce.user.dto.UserResponse;
 import ecom.commerce.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
+@Slf4j
 public class UserController {
 
     private final UserService userService;
@@ -20,8 +22,6 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<UserResponse>> getAllUsers() {
         return new ResponseEntity<>(userService.fetchAllUsers(),HttpStatus.OK);
-        // Another way to do it is below
-        // return ResponseEntity.ok(userService.fetchAllUsers());
     }
 
     @PostMapping
@@ -33,7 +33,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getSingleUser(@PathVariable String id) {
-
+        log.info("Fetching user with id: {}", id);
         return userService.fetchUser(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
