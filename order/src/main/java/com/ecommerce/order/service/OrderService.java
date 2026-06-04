@@ -38,7 +38,7 @@ public class OrderService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         // Create order
         Order order = new Order();
-        order.setUserId(Long.valueOf(userId));
+        order.setUserId(userId);
         order.setStatus(OrderStatus.CONFIRMED);
         order.setTotalAmount(totalPrice);
         // Since we do not have order items which we need to create order we transform cart item to order item
