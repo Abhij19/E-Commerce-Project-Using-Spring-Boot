@@ -23,7 +23,7 @@ public class CartController {
             @RequestBody CartItemRequest request) {
         // We are taking id in header because each cart belongs to an unique user
         if (!cartService.addToCart(userId, request)) {
-            return ResponseEntity.badRequest().body("Product out of stock or not found or User not found");
+            return ResponseEntity.badRequest().body("Not able to complete the request");
         }
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
