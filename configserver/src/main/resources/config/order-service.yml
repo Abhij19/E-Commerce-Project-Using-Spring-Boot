@@ -78,3 +78,9 @@ resilience4j:
         failureRateThreshold: 50 #this is the failure rate threshold that will trigger the CircuitBreaker to transition to the open state
         automaticTransitionFromOpenToHalfOpenEnabled: true #this is the flag that enables the automatic transition from open to half-open state after wait duration in open state completes
         slidingWindowType: COUNT_BASED #this is the type of sliding window that is used to calculate the failure rate, it can be either COUNT_BASED or TIME_BASED
+
+  retry:
+      instances:
+        retryBreaker:
+          maxAttempts: 5
+          waitDuration: 3s
