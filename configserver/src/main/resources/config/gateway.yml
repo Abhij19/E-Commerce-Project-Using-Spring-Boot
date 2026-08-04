@@ -38,6 +38,31 @@ management:
     web:
       exposure:
         include: "*"
+
+  endpoint:
+    health:
+      show-details: always
+
+  health:
+    circuitbreakers:
+      enabled: true
+
   tracing:
     sampling:
       probability: 1.0
+
+#CircuitBreaker Configuration
+resilience4j:
+  circuitbreaker:
+    instances:
+      eComBreaker:
+        registerHealthIndicator: true #this is optional, default is true and it registers a health indicator for the circuit breaker
+        slidingWindowSize: 10  #this is the number of calls that are recorded in the sliding window or like basically the number of calls that are used to calculate the failure rate
+        minimumNumberOfCalls: 5 #this is the minimum number of calls that are required before the CircuitBreaker can calculate the failure rate
+        permittedNumberOfCallsInHalfOpenState: 3 #this is the number of calls that are allowed to pass through when the CircuitBreaker is in the half-open state
+        waitDurationInOpenState: 10s #this is the wait duration that the CircuitBreaker will stay in the open state before transitioning to the half-open state
+        failureRateThreshold: 50 #this is the failure rate threshold that will trigger the CircuitBreaker to transition to the open state
+        automaticTransitionFromOpenToHalfOpenEnabled: true #this is the flag that enables the automatic transition from open to half-open state after wait duration in open state completes
+        slidingWindowType: COUNT_BASED #this is the type of sliding window that is used to calculate the failure rate, it can be either COUNT_BASED or TIME_BASED
+
+

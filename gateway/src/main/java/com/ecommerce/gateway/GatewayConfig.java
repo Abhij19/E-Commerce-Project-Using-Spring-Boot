@@ -14,8 +14,8 @@ public class GatewayConfig {
 
                 .route("product-service", r -> r
                         .path("/api/products/**")
-//                        .filters(f->f.rewritePath("/products(?<segment>/?.*)",
-//                                "/api/products${segment}"))
+                    .filters(f->f.circuitBreaker(config -> config.setName("eComBreaker")
+                            .setFallbackUri("forward:/fallback/products")))
                         .uri("lb://PRODUCT-SERVICE"))
 
                 .route("user-service", r -> r
