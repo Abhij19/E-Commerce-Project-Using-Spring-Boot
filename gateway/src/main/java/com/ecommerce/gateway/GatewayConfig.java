@@ -1,13 +1,31 @@
 package com.ecommerce.gateway;
 
+import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
+import org.springframework.cloud.gateway.filter.ratelimit.RedisRateLimiter;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
 @Component
 public class GatewayConfig {
+
+    @Bean
+    public RedisRateLimiter redisRateLimiter() {
+        // This means the bucket can hold upto 20 tokens, 10 tokens are added to the token bucket every second, and
+        // 1 token is consumed by each request so under steady conditions 10 request/sec can be handled
+        return new RedisRateLimiter(10,20,1);
+    }
+
+    @Bean
+    public KeyResolver hostNameKeyResolver() {
+        // Every user will be uniquely identified by host name
+        return exchange -> Mono.just(
+                exchange.getRequest().getRemoteAddress().getHostName());
+    }
+
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
 
@@ -18,7 +36,10 @@ public class GatewayConfig {
                     .filters(f -> f.retry(retryConfig -> retryConfig
                             .setRetries(10)
                             .setMethods(HttpMethod.GET)
-                    ).circuitBreaker(config -> config.setName("eComBreaker")
+                    ).requestRateLimiter(config -> config
+                            .setRateLimiter(redisRateLimiter())
+                            .setKeyResolver(hostNameKeyResolver()))
+                            .circuitBreaker(config -> config.setName("eComBreaker")
                             .setFallbackUri("forward:/fallback/products")))
                         .uri("lb://PRODUCT-SERVICE"))
 
