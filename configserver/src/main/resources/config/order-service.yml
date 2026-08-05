@@ -84,3 +84,9 @@ resilience4j:
         retryBreaker:
           maxAttempts: 5
           waitDuration: 3s
+  rateLimiter:
+      instances:
+        rateLimiter:
+          limitForPeriod: 5 #this is the number of calls that are allowed to pass through in a given period
+          limitRefreshPeriod: 10s #this is the period after which the limit is refreshed
+          timeoutDuration: 2s #this is the duration after which a call will timeout if the rate limit is exceeded
