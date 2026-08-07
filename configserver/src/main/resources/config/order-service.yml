@@ -49,6 +49,13 @@ app:
   message: "Hello from Order Service"
 server:
   port: 8083
+rabbitmq:
+  exchange:
+    name: order-exchange
+  queue:
+    name: order-queue
+  routing-key:
+    key: order-tracking
 
 eureka:
   client:
