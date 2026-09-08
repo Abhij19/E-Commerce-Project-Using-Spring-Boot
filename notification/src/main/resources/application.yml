@@ -12,20 +12,23 @@ spring:
           destination: order-exchange
           group: order-notification-group
           content-type: application/json
-  rabbitmq:
-    host: ${RABBITMQ_HOST:localhost}
-    port: ${RABBITMQ_PORT:5672}
-    username: ${RABBITMQ_USERNAME:guest}
-    password: ${RABBITMQ_PASSWORD:guest}
-    virtual-host: ${RABBITMQ_VIRTUAL_HOST:guest}
-    connection-timeout: 30000
+      kafka:
+        binder:
+          brokers: localhost:9092
+#  rabbitmq:
+#    host: ${RABBITMQ_HOST:localhost}
+#    port: ${RABBITMQ_PORT:5672}
+#    username: ${RABBITMQ_USERNAME:guest}
+#    password: ${RABBITMQ_PASSWORD:guest}
+#    virtual-host: ${RABBITMQ_VIRTUAL_HOST:guest}
+#    connection-timeout: 30000
 server:
   port: 8084
 
-rabbitmq:
-  exchange:
-    name: order-exchange
-  queue:
-    name: order-queue
-  routing-key:
-    key: order-tracking
+#rabbitmq:
+#  exchange:
+#    name: order-exchange
+#  queue:
+#    name: order-queue
+#  routing-key:
+#    key: order-tracking
