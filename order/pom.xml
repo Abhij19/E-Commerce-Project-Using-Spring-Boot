@@ -98,6 +98,7 @@
 <!--			<artifactId>spring-boot-starter-amqp</artifactId>-->
 <!--		</dependency>-->
 
+		<!-- Spring Cloud Stream dependencies for RabbitMQ binder -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-stream</artifactId>
