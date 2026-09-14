@@ -66,3 +66,9 @@ resilience4j:
         slidingWindowType: COUNT_BASED #this is the type of sliding window that is used to calculate the failure rate, it can be either COUNT_BASED or TIME_BASED
 
 
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8443/realms/ecom-app
