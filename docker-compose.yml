@@ -103,6 +103,14 @@ services:
     networks:
       - backend
 
+  config-server:
+    build: ./configserver
+    container_name: config-server
+    ports:
+      - "8888:8888"
+    networks:
+      - backend
+
   redis:
     container_name: redis
     image: redis:latest
