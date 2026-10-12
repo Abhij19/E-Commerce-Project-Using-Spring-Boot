@@ -1,0 +1,118 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres:5432/orderdb
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+  cloud:
+    stream:
+      bindings:
+        create-order-out-0:
+          destination: order-exchange
+          content-type: application/json
+      kafka:
+        binder:
+          brokers: kafka:29092
+#      rabbit:
+#        bindings:
+#          create-order-out-0:
+#            producer:
+#              routing-key-expression: '''order-tracking'''
+  jpa:
+    database : PostgreSQL
+    show-sql:  true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#  rabbitmq:
+#      host: ${RABBITMQ_HOST:localhost}
+#      port: ${RABBITMQ_PORT:5672}
+#      username: ${RABBITMQ_USERNAME:guest}
+#      password: ${RABBITMQ_PASSWORD:guest}
+#      virtual-host: ${RABBITMQ_VIRTUAL_HOST:guest}
+#      connection-timeout: 30000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans
+#  h2:
+#    console:
+#      enabled: true
+#
+#  datasource:
+#    url: jdbc:h2:mem:testdb
+#
+#  jpa:
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: create
+#
+#logging:
+#  level:
+#    org.hibernate.SQL: DEBUG
+#    org.hibernate.orm.jdbc.bind: TRACE
+app:
+  message: "Hello from Order Service"
+server:
+  port: 8083
+#rabbitmq:
+#  exchange:
+#    name: order-exchange
+#  queue:
+#    name: order-queue
+#  routing-key:
+#    key: order-tracking
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
+logging:
+  file:
+    name: logs/${spring.application.name}.log
+  logback:
+    rollingpolicy:
+      max-history: 3
+      max-file-size: 7MB
+
+#CircuitBreaker Configuration
+resilience4j:
+  circuitbreaker:
+    instances:
+      product-service:
+        registerHealthIndicator: true #this is optional, default is true and it registers a health indicator for the circuit breaker
+        slidingWindowSize: 10  #this is the number of calls that are recorded in the sliding window or like basically the number of calls that are used to calculate the failure rate
+        minimumNumberOfCalls: 5 #this is the minimum number of calls that are required before the CircuitBreaker can calculate the failure rate
+        permittedNumberOfCallsInHalfOpenState: 3 #this is the number of calls that are allowed to pass through when the CircuitBreaker is in the half-open state
+        waitDurationInOpenState: 10s #this is the wait duration that the CircuitBreaker will stay in the open state before transitioning to the half-open state
+        failureRateThreshold: 50 #this is the failure rate threshold that will trigger the CircuitBreaker to transition to the open state
+        automaticTransitionFromOpenToHalfOpenEnabled: true #this is the flag that enables the automatic transition from open to half-open state after wait duration in open state completes
+        slidingWindowType: COUNT_BASED #this is the type of sliding window that is used to calculate the failure rate, it can be either COUNT_BASED or TIME_BASED
+
+  retry:
+      instances:
+        retryBreaker:
+          maxAttempts: 5
+          waitDuration: 3s
+  rateLimiter:
+      instances:
+        rateLimiter:
+          limitForPeriod: 5 #this is the number of calls that are allowed to pass through in a given period
+          limitRefreshPeriod: 10s #this is the period after which the limit is refreshed
+          timeoutDuration: 2s #this is the duration after which a call will timeout if the rate limit is exceeded

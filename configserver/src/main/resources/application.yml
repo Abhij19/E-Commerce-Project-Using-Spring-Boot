@@ -9,7 +9,7 @@ spring:
         config:
             server:
                 native:
-                    search-locations: file:////Users/ajha/Desktop/E-Comm Microservice/configserver/src/main/resources/config
+                    search-locations:  file:/config
     rabbitmq:
         host: ${RABBITMQ_HOST:localhost}
         port: ${RABBITMQ_PORT:5672}

@@ -1,0 +1,22 @@
+spring:
+    cloud:
+        config:
+            server:
+                native:
+                    search-locations: file:/config
+    rabbitmq:
+        host: ${RABBITMQ_HOST:localhost}
+        port: ${RABBITMQ_PORT:5672}
+        username: ${RABBITMQ_USERNAME:guest}
+        password: ${RABBITMQ_PASSWORD:guest}
+        virtual-host: ${RABBITMQ_VIRTUAL_HOST:guest}
+        connection-timeout: 30000
+management:
+    endpoints:
+        web:
+            exposure:
+                include: "*"
+
+
+server:
+    port: 8888
